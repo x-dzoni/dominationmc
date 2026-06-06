@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@400;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0d0a06;
+    color: #e8d5a0;
+    font-family: 'Rajdhani', sans-serif;
+    width: 1080px;
+    background-image:
+      radial-gradient(ellipse at 50% 0%, rgba(180,120,0,0.15) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='80' height='69' viewBox='0 0 80 69' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 0 L60 0 L80 35 L60 69 L20 69 L0 35Z' fill='none' stroke='rgba(180,120,0,0.04)' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: auto, 80px 69px;
+  }
+  .page { width: 1080px; padding: 50px 60px 60px; }
+
+  /* HEADER */
+  .header { text-align: center; margin-bottom: 40px; }
+  .subtitle-bar {
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+    font-size: 13px; font-weight: 700; letter-spacing: 4px; color: #c8921a;
+    text-transform: uppercase; margin-bottom: 20px;
+  }
+  .subtitle-bar::before, .subtitle-bar::after {
+    content: ''; width: 80px; height: 1px;
+    background: linear-gradient(90deg, transparent, #c8921a);
+  }
+  .subtitle-bar::after { transform: scaleX(-1); }
+  .server-name {
+    font-family: 'Cinzel', serif; font-size: 80px; font-weight: 900;
+    line-height: 0.95; color: #f5c842;
+    text-shadow: 0 0 40px rgba(245,200,66,0.4), 0 3px 0 #7a4800, 0 6px 0 #5a3000, 4px 4px 0 #3a1a00;
+    letter-spacing: 4px;
+  }
+  .server-name span { display: block; font-size: 70px; color: #e8a820; }
+  .tagline { font-size: 18px; color: #9a7a3a; letter-spacing: 2px; margin-top: 12px; font-weight: 600; }
+  .hex-divider { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 20px 0; }
+  .hex-divider svg { width: 22px; height: 22px; }
+  .hex-divider svg polygon { fill: none; stroke: #c8921a; stroke-width: 1.5; }
+  .hex-line { width: 120px; height: 1px; background: linear-gradient(90deg, transparent, #c8921a60); }
+  .hex-line.r { transform: scaleX(-1); }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Cinzel', serif; font-size: 20px; font-weight: 700; color: #f5c842;
+    text-transform: uppercase; letter-spacing: 3px;
+    display: flex; align-items: center; gap: 12px; margin: 32px 0 14px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, #c8921a60, transparent); }
+  .dot { width: 10px; height: 10px; background: #f5c842; clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%); flex-shrink: 0; }
+
+  /* CARD */
+  .card {
+    background: linear-gradient(135deg, #1a1408 0%, #120e05 100%);
+    border: 1px solid #3a2a08; border-radius: 12px;
+    padding: 20px 24px; margin-bottom: 14px; position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, #c8921a, transparent); opacity: 0.6;
+  }
+  .card-red { border-color: #6a1a1a; }
+  .card-red::before { background: linear-gradient(90deg, transparent, #cc3333, transparent); }
+
+  .card-label {
+    font-family: 'Cinzel', serif; font-size: 13px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card-label.gold { color: #f5c842; }
+  .card-label.red { color: #ff6666; }
+
+  .note {
+    font-size: 13px; color: #7a6030; font-style: italic;
+    background: #0a0700; border: 1px solid #2a1e0860;
+    border-radius: 6px; padding: 8px 14px; margin-bottom: 14px;
+  }
+
+  /* TWO COLUMN LAYOUT */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+  /* RULES */
+  .rule { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; border-bottom: 1px solid #ffffff08; font-size: 15px; }
+  .rule:last-child { border-bottom: none; }
+  .rule-icon { font-size: 17px; width: 24px; text-align: center; flex-shrink: 0; margin-top: 1px; }
+  .rule-name { flex: 1; color: #ddc880; font-weight: 600; line-height: 1.4; }
+  .rule-name.danger { color: #ff9966; }
+  .rule-pun { color: #f5c842; font-weight: 700; font-size: 14px; white-space: nowrap; margin-left: 8px; }
+  .rule-pun.severe { color: #ff6644; }
+
+  /* WARN */
+  .warn-row {
+    display: flex; align-items: center; justify-content: space-between;
+    background: #0d0900; border: 1px solid #2a1e08; border-radius: 8px;
+    padding: 10px 16px; margin-bottom: 8px; font-size: 16px;
+  }
+  .warn-row:last-child { margin-bottom: 0; }
+  .warn-count { font-weight: 700; color: #f5c842; font-family: 'Cinzel', serif; font-size: 15px; }
+  .warn-res { color: #ff7744; font-weight: 700; font-size: 15px; }
+  .repeat-box {
+    background: #200808; border: 1px solid #8a2020; border-radius: 10px;
+    padding: 14px 18px; margin-top: 12px; display: flex; align-items: flex-start; gap: 14px;
+  }
+  .repeat-box .rlabel { font-family: 'Cinzel', serif; font-size: 13px; color: #ff6666; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; }
+  .repeat-box .rdesc { font-size: 15px; color: #c88888; line-height: 1.5; }
+  .doubled { color: #ff4444; font-weight: 700; }
+
+  /* CHEAT */
+  .cheat-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; margin-bottom: 18px; }
+  .cheat-cell {
+    background: #0d0900; border: 1px solid #2a1e0860; border-radius: 10px;
+    padding: 14px 8px; text-align: center;
+  }
+  .cheat-icon { font-size: 28px; margin-bottom: 6px; }
+  .cheat-name { font-size: 12px; color: #c8921a; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: block; }
+  .cheat-eg { font-size: 11px; color: #5a4020; display: block; margin-top: 4px; line-height: 1.4; }
+
+  .brule { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; padding: 6px 0; }
+  .hex-bullet { width: 9px; height: 9px; background: #c8921a; clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%); flex-shrink: 0; margin-top: 5px; }
+  .brule-text { color: #c8a860; flex: 1; }
+  .brule-pun { color: #ff7744; font-weight: 700; font-size: 14px; white-space: nowrap; margin-left: 6px; }
+
+  /* ALT */
+  .alt-cell {
+    background: #0d0900; border: 1px solid #2a1e08; border-radius: 10px;
+    padding: 14px 16px; font-size: 15px; color: #b89850; line-height: 1.6;
+  }
+  .alt-cell strong { font-family: 'Cinzel', serif; font-size: 13px; color: #f5c842; display: block; margin-bottom: 4px; letter-spacing: 1px; }
+
+  /* VIOLATIONS */
+  .vio { display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; background: #0d0900; border: 1px solid #300a0a; border-radius: 9px; margin-bottom: 8px; }
+  .vio:last-child { margin-bottom: 0; }
+  .vio-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .vio-name { font-size: 15px; font-weight: 700; color: #e8c090; line-height: 1.3; }
+  .vio-pun { font-size: 14px; font-weight: 700; color: #ff7744; margin-top: 3px; }
+  .vio-pun.perm { color: #ff4444; }
+
+  /* SOCIAL */
+  .social-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-top: 8px; }
+  .social-cell {
+    background: #13100580; border: 1px solid #3a2a08; border-radius: 10px;
+    padding: 14px 16px; display: flex; align-items: center; gap: 12px;
+  }
+  .s-icon {
+    width: 38px; height: 38px; background: #1a1408; border: 1px solid #c8921a40;
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .s-label { font-size: 11px; color: #5a4820; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  .s-value { font-size: 14px; color: #e8d5a0; font-weight: 700; }
+
+  /* BADGES */
+  .badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 24px 0 0; }
+  .badge { border: 1px solid #3a2a08; border-radius: 24px; padding: 7px 20px; font-size: 12px; font-weight: 700; letter-spacing: 2px; color: #7a6030; text-transform: uppercase; }
+
+  /* FOOTER */
+  .footer { text-align: center; margin-top: 30px; padding-top: 24px; border-top: 1px solid #2a1e0840; }
+  .footer-line { font-size: 16px; color: #6a5028; margin-bottom: 6px; }
+  .footer-bold { font-family: 'Cinzel', serif; font-size: 20px; color: #f5c842; font-weight: 700; }
+  .footer-copy { font-size: 12px; color: #3a2a12; margin-top: 12px; }
+
+  .divider { height: 1px; background: #2a1e0860; margin: 4px 0 10px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="subtitle-bar">Server Rules &amp; Punishments</div>
+    <div class="server-name">Domination<span>MC</span></div>
+    <div class="tagline">Play fair, respect the community, and enjoy the game!</div>
+    <div class="hex-divider">
+      <div class="hex-line"></div>
+      <svg viewBox="0 0 24 24"><polygon points="12,2 22,7 22,17 12,22 2,17 2,7"/></svg>
+      <svg viewBox="0 0 24 24"><polygon points="12,2 22,7 22,17 12,22 2,17 2,7"/></svg>
+      <svg viewBox="0 0 24 24"><polygon points="12,2 22,7 22,17 12,22 2,17 2,7"/></svg>
+      <div class="hex-line r"></div>
+    </div>
+  </div>
+
+  <!-- TOP ROW: Chat + Warning side by side -->
+  <div class="two-col">
+    <div>
+      <div class="section-title"><span class="dot"></span>Chat &amp; Behavior</div>
+      <div class="card">
+        <div class="rule"><span class="rule-icon">💬</span><span class="rule-name">Toxic behavior</span><span class="rule-pun">1h mute</span></div>
+        <div class="rule"><span class="rule-icon">🔁</span><span class="rule-name">Excessive spamming</span><span class="rule-pun">30min mute</span></div>
+        <div class="rule"><span class="rule-icon">🤬</span><span class="rule-name">Excessive profanity</span><span class="rule-pun">30min mute</span></div>
+        <div class="rule"><span class="rule-icon">👨‍👩‍👧</span><span class="rule-name">Insulting family members</span><span class="rule-pun">12h mute</span></div>
+        <div class="rule"><span class="rule-icon">🛡️</span><span class="rule-name">Disrespecting or insulting the Staff Team</span><span class="rule-pun">24h mute</span></div>
+        <div class="rule"><span class="rule-icon">⚡</span><span class="rule-name">Public arguments or hostility between players</span><span class="rule-pun">1h mute (all)</span></div>
+        <div class="rule"><span class="rule-icon">🚫</span><span class="rule-name danger">Racism, nationalism, discrimination, or harassment</span><span class="rule-pun severe">7d ban + 1 Warn</span></div>
+        <div class="note" style="margin-top:10px;margin-bottom:0">* Applies when behavior is intentionally toxic, provocative, or disruptive to global chat *</div>
+      </div>
+    </div>
+    <div>
+      <div class="section-title"><span class="dot"></span>Warning System</div>
+      <div class="card card-red">
+        <div class="card-label red">⚠ Warns — Issued at staff discretion</div>
+        <div class="note" style="text-align:center">Warnings expire after 7 days · Staff may issue warns alongside or instead of other punishments</div>
+        <div class="warn-row"><span class="warn-count">3 Active Warns</span><span class="warn-res">→ 1-day Ban</span></div>
+        <div class="warn-row"><span class="warn-count">5 Active Warns</span><span class="warn-res">→ 3-day Ban</span></div>
+        <div class="warn-row"><span class="warn-count">7 Active Warns</span><span class="warn-res">→ 7-day Ban</span></div>
+        <div class="repeat-box">
+          <div style="font-size:26px">🔴</div>
+          <div>
+            <div class="rlabel">⚠ Repeat Offender Penalty</div>
+            <div class="rdesc">All punishments are <span class="doubled">DOUBLED</span><br><span style="font-size:13px;color:#885555">e.g. A second mute is 2× the original duration</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHEATING - full width -->
+  <div class="section-title"><span class="dot"></span>Cheating &amp; Illegal Modifications</div>
+  <div class="card">
+    <div class="card-label gold">🚫 Strictly Prohibited Hacks &amp; Mods</div>
+    <div class="cheat-grid">
+      <div class="cheat-cell"><div class="cheat-icon">🏃</div><span class="cheat-name">Movement</span><span class="cheat-eg">Fly, Speed, Jesus, Timer, Elytra Swap, Spider</span></div>
+      <div class="cheat-cell"><div class="cheat-icon">⚔️</div><span class="cheat-name">Combat</span><span class="cheat-eg">Kill Aura, Reach, Hitboxes, Triggerbot, Anti-Knockback</span></div>
+      <div class="cheat-cell"><div class="cheat-icon">👁️</div><span class="cheat-name">Visual</span><span class="cheat-eg">X-Ray, Freecam, ESP, Tracers, Radar / Unfair Minimaps</span></div>
+      <div class="cheat-cell"><div class="cheat-icon">🤖</div><span class="cheat-name">Automation</span><span class="cheat-eg">Baritone, Autoclicker, Macros, Scripts, Auto Totem, Auto-Fish</span></div>
+      <div class="cheat-cell"><div class="cheat-icon">⚡</div><span class="cheat-name">Exploits</span><span class="cheat-eg">Fast XP, Attribute Swap, Inventory Walk, Duping</span></div>
+    </div>
+    <div class="divider"></div>
+    <div class="brule"><div class="hex-bullet"></div><span class="brule-text">Cheats or unauthorized software found during SS/SL</span><span class="brule-pun">7-day ban</span></div>
+    <div class="brule"><div class="hex-bullet"></div><span class="brule-text">Refusing SS/SL requested by Staff</span><span class="brule-pun">7-day ban</span></div>
+    <div class="brule"><div class="hex-bullet"></div><span class="brule-text">Admitting to use of cheats, hacks, or modifications</span><span class="brule-pun">3-day ban</span></div>
+  </div>
+
+  <!-- ALT + VIOLATIONS side by side -->
+  <div class="two-col">
+    <div>
+      <div class="section-title"><span class="dot"></span>Alt Accounts &amp; Abuse</div>
+      <div class="card" style="height:calc(100% - 54px)">
+        <div class="note" style="margin-bottom:14px">Any abuse involving alternative accounts is strictly forbidden — bypassing bans, AFK farms, or stat boosting.</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="alt-cell"><strong>Using more than 3 accounts</strong>7-day ban + newest account permanently disabled</div>
+          <div class="alt-cell"><strong>3 bans in 30 days</strong>30-day IP Ban</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-title"><span class="dot"></span>Violations &amp; Severe Offenses</div>
+      <div class="card card-red" style="height:calc(100% - 54px)">
+        <div class="vio"><span class="vio-icon">🌐</span><div><div class="vio-name">Ban evasion via alt accounts or VPNs</div><div class="vio-pun">7-day IP Ban</div></div></div>
+        <div class="vio"><span class="vio-icon">📢</span><div><div class="vio-name">Advertising or promoting other servers/services</div><div class="vio-pun">7-day Ban + 30-day IP Mute</div></div></div>
+        <div class="vio"><span class="vio-icon">🔗</span><div><div class="vio-name">Sending malicious links or harmful content</div><div class="vio-pun">14-day Ban + 30-day IP Mute</div></div></div>
+        <div class="vio"><span class="vio-icon">💀</span><div><div class="vio-name">Attempting to damage, attack, grief, or destroy the server</div><div class="vio-pun perm">Permanent Ban</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOCIAL -->
+  <div class="section-title"><span class="dot"></span>Find Us</div>
+  <div class="social-grid">
+    <div class="social-cell"><div class="s-icon" style="color:#5865F2">⬡</div><div><div class="s-label">Discord</div><div class="s-value">discord.dominationmc.com</div></div></div>
+    <div class="social-cell"><div class="s-icon" style="color:#ff4444">▶</div><div><div class="s-label">YouTube</div><div class="s-value">youtube.com/@dominationmc_com</div></div></div>
+    <div class="social-cell"><div class="s-icon" style="font-size:13px;font-weight:700;color:#69C9D0">TT</div><div><div class="s-label">TikTok</div><div class="s-value">@dominationmcsmp</div></div></div>
+    <div class="social-cell"><div class="s-icon" style="color:#c8921a">⬡</div><div><div class="s-label">Server IP</div><div class="s-value">play.dominationmc.com</div></div></div>
+  </div>
+
+  <!-- BADGES -->
+  <div class="badges">
+    <div class="badge">Java Edition</div>
+    <div class="badge">Bedrock Supported</div>
+    <div class="badge">Cross-Platform</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-line">You are the driving force behind everything we do.</div>
+    <div class="footer-bold">Without you, there is no DominationMC.</div>
+    <div class="footer-copy">© 2026 DominationMC · All rights reserved</div>
+  </div>
+
+</div>
+</body>
+</html>
